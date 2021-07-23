@@ -1,4 +1,4 @@
-import { HttpRequest, HttpResponse } from '../protocols/http'
+import { HttpRequest, HttpResponse } from '../protocols'
 
 export interface Controller {
   handle: (httpRequest: HttpRequest) => HttpResponse
