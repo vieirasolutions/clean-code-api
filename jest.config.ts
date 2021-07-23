@@ -1,7 +1,7 @@
 export default {
   roots: ['<rootDir>/src'],
-  collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  collectCoverage: false,
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!<rootDir>/src/main/**', '!<rootDir>/src/**/*-protocols.ts', '!**/protocols/**', '!**/test/**'],
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
   testEnvironment: 'node',
