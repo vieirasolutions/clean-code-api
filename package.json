@@ -13,7 +13,7 @@
     "test:ci": "npm test -- --coverage=true"
   },
   "keywords": [],
-  "author": "",
+  "author": "Breno Vieira Soares",
   "license": "ISC",
   "devDependencies": {
     "@shelf/jest-mongodb": "^2.0.1",
