@@ -1,10 +1,9 @@
-import { EmailValidator } from './login-protocols'
+import { EmailValidator, Authentication, HttpRequest } from './login-protocols'
 import { LoginController } from './login'
 import { InvalidParamError, MissingParamError, ServerError } from '../../errors'
 import { badRequest, serverError, unauthorized } from '../../helpers/http-helper'
-import { Authentication } from '../../../domain/usecases/authentication'
 
-const makeHttpRequest = (): any => ({
+const makeHttpRequest = (): HttpRequest => ({
   body: {
     email: 'any_email@mail.com',
     password: 'any_password'
