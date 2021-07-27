@@ -76,8 +76,7 @@ describe('DbAuthentication UseCase', () => {
   })
 
   test('Should call HashComparer with correct value', async () => {
-    const { sut, hashComparerStub, loadAccountByEmailRepositoryStub } = makeSut()
-    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(new Promise(resolve => resolve(makeAccountModel())))
+    const { sut, hashComparerStub } = makeSut()
     const compareSpy = jest.spyOn(hashComparerStub, 'compare')
     await sut.auth(makeAuthenticationModel())
     expect(compareSpy).toHaveBeenCalledWith(makeAuthenticationModel().password, makeAccountModel().password)
