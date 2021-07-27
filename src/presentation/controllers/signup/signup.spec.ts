@@ -66,14 +66,6 @@ const makeSut = (): SutTypes => {
 }
 
 describe('SignUp Controller', () => {
-  test('Should return bad request if no passwordConfirmation failed', async () => {
-    const { sut } = makeSut()
-    const httpRequest = makeFakeRequest()
-    httpRequest.body.passwordConfirmation = 'invalid_passwordConfirmation'
-    const httpReponse = await sut.handle(httpRequest)
-    expect(httpReponse).toEqual(badRequest(new InvalidParamError('passwordConfirmation')))
-  })
-
   test('Should return bad request if an invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
