@@ -66,38 +66,6 @@ const makeSut = (): SutTypes => {
 }
 
 describe('SignUp Controller', () => {
-  test('Should return bad request if no name is provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = makeFakeRequest()
-    delete httpRequest.body.name
-    const httpReponse = await sut.handle(httpRequest)
-    expect(httpReponse).toEqual(badRequest(new MissingParamError('name')))
-  })
-
-  test('Should return bad request if no email is provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = makeFakeRequest()
-    delete httpRequest.body.email
-    const httpReponse = await sut.handle(httpRequest)
-    expect(httpReponse).toEqual(badRequest(new MissingParamError('email')))
-  })
-
-  test('Should return bad request if no password is provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = makeFakeRequest()
-    delete httpRequest.body.password
-    const httpReponse = await sut.handle(httpRequest)
-    expect(httpReponse).toEqual(badRequest(new MissingParamError('password')))
-  })
-
-  test('Should return bad request if no passwordConfirmation is provided', async () => {
-    const { sut } = makeSut()
-    const httpRequest = makeFakeRequest()
-    delete httpRequest.body.passwordConfirmation
-    const httpReponse = await sut.handle(httpRequest)
-    expect(httpReponse).toEqual(badRequest(new MissingParamError('passwordConfirmation')))
-  })
-
   test('Should return bad request if no passwordConfirmation failed', async () => {
     const { sut } = makeSut()
     const httpRequest = makeFakeRequest()
