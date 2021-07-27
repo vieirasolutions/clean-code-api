@@ -94,10 +94,17 @@ describe('Login Controller', () => {
     expect(authSpy).toHaveBeenCalledWith(makeHttpRequest().body.email, makeHttpRequest().body.password)
   })
 
-  test('Should return 401 if invalid credentials are provided', async () => {
+  test('Should return unauthorized if invalid credentials are provided', async () => {
     const { sut, authenticationStub } = makeSut()
     jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const httpResponse = await sut.handle(makeHttpRequest())
     expect(httpResponse).toEqual(unauthorized())
+  })
+
+  test('Should return server error if Authentication throws', async () => {
+    const { sut, authenticationStub } = makeSut()
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    const httpResponse = await sut.handle(makeHttpRequest())
+    expect(httpResponse).toEqual(serverError(new ServerError()))
   })
 })
