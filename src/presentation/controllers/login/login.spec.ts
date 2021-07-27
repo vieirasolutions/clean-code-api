@@ -65,7 +65,7 @@ describe('Login Controller', () => {
     expect(isValidSpy).toHaveBeenCalledWith(makeHttpRequest().body.email)
   })
 
-  test('Should throw if EmailValidator throws', async () => {
+  test('Should return server error if EmailValidator throws', async () => {
     const { sut, emailValidatorStub } = makeSut()
     jest.spyOn(emailValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw new Error()
