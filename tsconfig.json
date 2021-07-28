@@ -6,6 +6,7 @@
         "esModuleInterop": true,
         "removeComments": true,
         "strictNullChecks": false,
+        "sourceMap": true
     },
     "include": [
         "src"

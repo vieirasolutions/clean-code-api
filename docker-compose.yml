@@ -15,8 +15,10 @@ services:
     restart: always
     volumes:
       - ./dist:/usr/src/clean-node-api/dist
-    command: npm start
+      - ./package.json:/usr/src/clean-node-api/package.json
+    command: npm run debug
     ports:
       - "5050:5050"
+      - "9222:9222"
     links:
       - mongo
