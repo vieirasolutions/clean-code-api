@@ -14,7 +14,7 @@ services:
     working_dir: /usr/src/clean-node-api
     restart: always
     volumes:
-      - ./dist:/usr/src/clean-node-api/dist
+      - ./dist/:/usr/src/clean-node-api/dist/
       - ./package.json:/usr/src/clean-node-api/package.json
     command: bash -c "npm install --only=prod && npm run debug"
     ports:
