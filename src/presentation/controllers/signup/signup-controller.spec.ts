@@ -93,7 +93,9 @@ describe('SignUp Controller', () => {
   test('Should return ok if valid data is provided', async () => {
     const { sut } = makeSut()
     const httpReponse = await sut.handle(makeFakeRequest())
-    expect(httpReponse).toEqual(ok(makeFakeValidAccount()))
+    expect(httpReponse).toEqual(ok({
+      accessToken: makeValidAuthenticationData().accessToken
+    }))
   })
 
   test('Should call Validation with correct value', async () => {
