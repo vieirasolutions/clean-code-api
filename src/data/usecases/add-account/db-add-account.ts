@@ -1,15 +1,21 @@
-import { AddAccount, AddAccountModel, AccountModel, Hasher, AddAccountRepository } from './db-add-accounts-protocols'
+import { EmailInUseError } from '../../../presentation/errors'
+import { AddAccount, AddAccountModel, AccountModel, Hasher, AddAccountRepository, LoadAccountByEmailRepository } from './db-add-accounts-protocols'
 
 export class DbAddAccount implements AddAccount {
   constructor (
     private readonly hasher: Hasher,
-    private readonly addAccountRepository: AddAccountRepository
+    private readonly addAccountRepository: AddAccountRepository,
+    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository
   ) {}
 
   async add (accountData: AddAccountModel): Promise<AccountModel> {
-    const { password } = accountData
+    const { password, email } = accountData
+    const account = await this.loadAccountByEmailRepository.loadByEmail(email)
+    if (account) {
+      throw new EmailInUseError()
+    }
+
     const hashedPassword = await this.hasher.hash(password)
-    const account = await this.addAccountRepository.add({ ...accountData, password: hashedPassword })
-    return account
+    return await this.addAccountRepository.add({ ...accountData, password: hashedPassword })
   }
 }
