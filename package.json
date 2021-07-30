@@ -12,8 +12,9 @@
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --no-cache",
     "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit.config.ts",
+    "test:unit-pre-commit": "npm test -- -c jest-unit.config.ts --onlyChanged",
     "test:integration": "npm test -- --watch -c jest-integration.config.ts",
-    "test:staged": "npm test -- --findRelatedTests",
+    "test:integration-pre-commit": "npm test -- -c jest-integration.config.ts --onlyChanged",
     "test:ci": "npm test -- --coverage=true"
   },
   "keywords": [],
