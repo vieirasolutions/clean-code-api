@@ -30,6 +30,24 @@ describe('Login Routes', () => {
         })
         .expect(200)
     })
+
+    test('Should return 403 if AddAccount throws EmailInUseError', async () => {
+      const password = await hash('123', 12)
+      await accountCollection.insertOne({
+        name: 'Breno Vieira Soares',
+        email: 'breno@gmail.com',
+        password
+      })
+      await request(app)
+        .post('/api/signup')
+        .send({
+          name: 'Breno Vieira Soares',
+          email: 'breno@gmail.com',
+          password: '123',
+          passwordConfirmation: '123'
+        })
+        .expect(403)
+    })
   })
 
   describe('POST /login', () => {

@@ -98,11 +98,13 @@ describe('SignUp Controller', () => {
     }))
   })
 
-  test('Should return 403 if AddAccount returns null', async () => {
+  test('Should return forbidden if AddAccount throws EmailInUseError', async () => {
     const { sut, addAccountStub } = makeSut()
-    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(new Promise(resolve => resolve(null)))
-    const httpReponse = await sut.handle(makeFakeRequest())
-    expect(httpReponse).toEqual(forbidden(new EmailInUseError()))
+    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => {
+      throw new EmailInUseError()
+    })
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
 
   test('Should call Validation with correct value', async () => {
@@ -127,7 +129,7 @@ describe('SignUp Controller', () => {
     expect(authSpy).toHaveBeenCalledWith({ email: makeFakeRequest().body.email, password: makeFakeRequest().body.password })
   })
 
-  test('Should return server error if Authentication throws', async () => {
+  test('Should return server error if Authentication throws teste teste', async () => {
     const { sut, authenticationStub } = makeSut()
     jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
     const httpResponse = await sut.handle(makeFakeRequest())
