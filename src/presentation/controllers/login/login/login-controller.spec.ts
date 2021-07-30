@@ -1,7 +1,7 @@
 import { Authentication, HttpRequest, Validation, AuthenticationModel } from './login-controller-protocols'
 import { LoginController } from './login-controller'
-import { MissingParamError, ServerError } from '../../errors'
-import { badRequest, ok, serverError, unauthorized } from '../../helpers/http/http-helper'
+import { MissingParamError, ServerError } from '../../../errors'
+import { badRequest, ok, serverError, unauthorized } from '../../../helpers/http/http-helper'
 
 const makeValidAuthenticationData = (): any => ({
   accessToken: 'any_token'

@@ -1,8 +1,8 @@
 import { SignUpController } from './signup-controller'
-import { MissingParamError, ServerError } from '../../errors'
-import { EmailInUseError } from '../../../domain/errors'
+import { MissingParamError, ServerError } from '../../../errors'
+import { EmailInUseError } from '../../../../domain/errors'
 import { AddAccountModel, AddAccount, AccountModel, HttpRequest, Validation, Authentication, AuthenticationModel } from './signup-controller-protocols'
-import { ok, badRequest, serverError, forbidden } from '../../helpers/http/http-helper'
+import { ok, badRequest, serverError, forbidden } from '../../../helpers/http/http-helper'
 
 const makeValidAuthenticationData = (): any => ({
   accessToken: 'any_token'
