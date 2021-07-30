@@ -1,6 +1,6 @@
-import { EmailInUseError } from '../../../presentation/errors'
-import { DbAddAccount } from '../add-account/db-add-account'
 import { Hasher, AddAccountModel, AccountModel, AddAccountRepository, LoadAccountByEmailRepository } from './db-add-accounts-protocols'
+import { EmailInUseError } from '../../../domain/errors'
+import { DbAddAccount } from '../add-account/db-add-account'
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
