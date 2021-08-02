@@ -70,4 +70,17 @@ describe('Account Mongo Repository', () => {
       expect(account.accessToken).toBe(accessToken)
     })
   })
+
+  describe('loadByToken()', () => {
+    test('Should return an account on loadByToken withour role success', async () => {
+      const sut = makeSut()
+      await accountCollection.insertOne({ ...makeFakeAccountData(), accessToken: 'any_token' })
+      const account = await sut.loadByToken('any_token')
+      expect(account).toBeTruthy()
+      expect(account.id).toBeTruthy()
+      expect(account.name).toBe(makeFakeAccountData().name)
+      expect(account.email).toBe(makeFakeAccountData().email)
+      expect(account.password).toBe(makeFakeAccountData().password)
+    })
+  })
 })
