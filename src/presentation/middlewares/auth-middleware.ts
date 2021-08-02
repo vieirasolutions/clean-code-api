@@ -1,6 +1,6 @@
 import { LoadAccountByToken } from '../../domain/usecases/load-account-by-token'
 import { UnauthenticatedError } from '../errors'
-import { forbidden } from '../helpers/http/http-helper'
+import { forbidden, ok } from '../helpers/http/http-helper'
 import { HttpRequest, HttpResponse, Middleware } from '../protocols'
 
 export class AuthMiddleware implements Middleware {
@@ -18,5 +18,7 @@ export class AuthMiddleware implements Middleware {
     if (!account) {
       return forbidden(new UnauthenticatedError())
     }
+
+    return ok({ accountId: account.id })
   }
 }
