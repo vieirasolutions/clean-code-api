@@ -2,7 +2,7 @@ import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
 import request from 'supertest'
 import app from '../config/app'
 import { Collection } from 'mongodb'
-import { AddSurveyModel, SurveyAnswer } from '../../domain/usecases/add-survey'
+import { SurveyAnswer } from '../../domain/usecases/add-survey'
 import { sign } from 'jsonwebtoken'
 import env from '../config/env'
 
@@ -19,7 +19,7 @@ const makeFakeSurveyAnswer = (): SurveyAnswer[] => [
   }
 ]
 
-const makeFakeAddSurveyModel = (): AddSurveyModel => ({
+const makeFakeAddSurveyModel = (): any => ({
   answers: makeFakeSurveyAnswer(),
   question: 'Question'
 })
