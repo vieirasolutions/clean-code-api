@@ -14,6 +14,9 @@ export class AuthMiddleware implements Middleware {
       return forbidden(new UnauthenticatedError())
     }
 
-    await this.loadAccountByToken.load(httpRequest.headers['x-access-token'])
+    const account = await this.loadAccountByToken.load(httpRequest.headers['x-access-token'])
+    if (!account) {
+      return forbidden(new UnauthenticatedError())
+    }
   }
 }
