@@ -60,4 +60,14 @@ describe('ValidatorJs Adapter', () => {
     })
     expect(error).toEqual(new Error('same_error'))
   })
+
+  test('Shoud return null if success', () => {
+    const sut = makeSut()
+    fails.mockReturnValueOnce(false)
+    const error = sut.validate({
+      name: 'any_name',
+      email: 'any_email'
+    })
+    expect(error).toBeNull()
+  })
 })
