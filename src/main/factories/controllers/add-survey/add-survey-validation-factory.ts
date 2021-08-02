@@ -1,10 +1,13 @@
-import { RequiredFieldValidation, ValidationComposite } from '../../../../validation/validators'
+import { ValidationComposite } from '../../../../validation/validators'
 import { Validation } from '../../../../presentation/protocols/validation'
-
+import { ValidatorJsAdapter } from '../../../../infra/validators/validatorjs-adapter'
 export const makeAddSurveyValidation = (): ValidationComposite => {
   const validations: Validation[] = []
-  for (const field of ['question', 'answers']) {
-    validations.push(new RequiredFieldValidation(field))
-  }
+  validations.push(new ValidatorJsAdapter({
+    question: 'required|string',
+    answers: 'required|array',
+    'answers.*.answer': 'required|string',
+    'answers.*.image': 'url'
+  }))
   return new ValidationComposite(validations)
 }
