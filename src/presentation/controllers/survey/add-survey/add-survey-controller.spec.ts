@@ -1,9 +1,9 @@
-import { HttpRequest, AddSurvey, AddSurveyModel, Validation, SurveyAnswer } from './add-survey-controller-protocols'
+import { HttpRequest, AddSurvey, AddSurveyModel, Validation, SurveyAnswerModel } from './add-survey-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
 import { badRequest, noContent, serverError } from '../../../helpers/http/http-helper'
 import MockDate from 'mockdate'
 
-const makeFakeSurveyAnswer = (): SurveyAnswer[] => [{
+const makeFakeSurveyAnswer = (): SurveyAnswerModel[] => [{
   image: 'any_image',
   answer: 'any_answer'
 }]

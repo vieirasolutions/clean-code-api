@@ -2,14 +2,14 @@ import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
 import request from 'supertest'
 import app from '../config/app'
 import { Collection } from 'mongodb'
-import { SurveyAnswer } from '../../domain/usecases/add-survey'
+import { SurveyAnswerModel } from '../../domain/models/survey'
 import { sign } from 'jsonwebtoken'
 import env from '../config/env'
 
 let surveyCollection: Collection
 let accountCollection: Collection
 
-const makeFakeSurveyAnswer = (): SurveyAnswer[] => [
+const makeFakeSurveyAnswer = (): SurveyAnswerModel[] => [
   {
     image: 'http://image.com',
     answer: 'Answer 1'
