@@ -3,7 +3,11 @@ import request from 'supertest'
 import app from '../config/app'
 import { Collection } from 'mongodb'
 import { AddSurveyModel, SurveyAnswer } from '../../domain/usecases/add-survey'
+import { sign } from 'jsonwebtoken'
+import env from '../config/env'
+
 let surveyCollection: Collection
+let accountCollection: Collection
 
 const makeFakeSurveyAnswer = (): SurveyAnswer[] => [
   {
@@ -32,6 +36,9 @@ describe('Survey Routes', () => {
   beforeEach(async () => {
     surveyCollection = await MongoHelper.getCollection('surveys')
     await surveyCollection.deleteMany({})
+
+    accountCollection = await MongoHelper.getCollection('accounts')
+    await accountCollection.deleteMany({})
   })
 
   describe('POST /surveys', () => {
@@ -40,6 +47,27 @@ describe('Survey Routes', () => {
         .post('/api/surveys')
         .send(makeFakeAddSurveyModel())
         .expect(403)
+    })
+
+    test('Should return 204 on add survey with valid accessToken', async () => {
+      const res = await accountCollection.insertOne({
+        name: 'Breno Vieira Soares',
+        email: 'breno@gmail.com',
+        password: 'any',
+        role: 'admin'
+      })
+      const id = res.insertedId
+      const accessToken = sign({ id: id.toHexString() }, env.jwtSecret)
+      await accountCollection.updateOne({ _id: id }, {
+        $set: {
+          accessToken
+        }
+      })
+      await request(app)
+        .post('/api/surveys')
+        .set('x-access-token', accessToken)
+        .send(makeFakeAddSurveyModel())
+        .expect(204)
     })
   })
 })
