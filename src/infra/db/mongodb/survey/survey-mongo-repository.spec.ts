@@ -49,4 +49,18 @@ describe('Survey Mongo Repository', () => {
       expect(survey.answers).toEqual(makeFakeAddSurveyModel().answers)
     })
   })
+
+  describe('loadAll()', () => {
+    test('Should load all surveys on success', async () => {
+      await surveyCollection.insertMany([
+        { ...makeFakeAddSurveyModel() },
+        { ...makeFakeAddSurveyModel(), question: 'other_question' }
+      ])
+      const sut = makeSut()
+      const surveys = await sut.loadAll()
+      expect(surveys.length).toBe(2)
+      expect(surveys[0].question).toBe('any_question')
+      expect(surveys[1].question).toBe('other_question')
+    })
+  })
 })
