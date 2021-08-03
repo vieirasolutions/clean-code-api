@@ -24,6 +24,23 @@ const makeFakeAddSurveyModel = (): any => ({
   question: 'Question'
 })
 
+const makeAccessToken = async (role?: string): Promise<string> => {
+  const res = await accountCollection.insertOne({
+    name: 'Breno Vieira Soares',
+    email: 'breno@gmail.com',
+    password: 'any',
+    role
+  })
+  const id = res.insertedId
+  const accessToken = sign({ id: id.toHexString() }, env.jwtSecret)
+  await accountCollection.updateOne({ _id: id }, {
+    $set: {
+      accessToken
+    }
+  })
+  return accessToken
+}
+
 describe('Survey Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -50,19 +67,7 @@ describe('Survey Routes', () => {
     })
 
     test('Should return 204 on add survey with valid accessToken', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'Breno Vieira Soares',
-        email: 'breno@gmail.com',
-        password: 'any',
-        role: 'admin'
-      })
-      const id = res.insertedId
-      const accessToken = sign({ id: id.toHexString() }, env.jwtSecret)
-      await accountCollection.updateOne({ _id: id }, {
-        $set: {
-          accessToken
-        }
-      })
+      const accessToken = await makeAccessToken('admin')
       await request(app)
         .post('/api/surveys')
         .set('x-access-token', accessToken)
@@ -78,18 +83,7 @@ describe('Survey Routes', () => {
     })
 
     test('Should return 204 on load surveys with valid accessToken', async () => {
-      const res = await accountCollection.insertOne({
-        name: 'Breno Vieira Soares',
-        email: 'breno@gmail.com',
-        password: 'any'
-      })
-      const id = res.insertedId
-      const accessToken = sign({ id: id.toHexString() }, env.jwtSecret)
-      await accountCollection.updateOne({ _id: id }, {
-        $set: {
-          accessToken
-        }
-      })
+      const accessToken = await makeAccessToken()
       await request(app)
         .get('/api/surveys')
         .set('x-access-token', accessToken)
