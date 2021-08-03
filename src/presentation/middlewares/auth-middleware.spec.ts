@@ -1,6 +1,6 @@
 import { HttpRequest, HttpResponse, LoadAccountByToken } from './auth-middleware-protocols'
 import { forbidden, ok, serverError } from '../helpers/http/http-helper'
-import { UnauthenticatedError } from '../errors'
+import { AccessDeniedError, UnauthenticatedError } from '../errors'
 import { AuthMiddleware } from './auth-middleware'
 import { AccountModel } from '../../domain/models/account'
 
@@ -56,11 +56,11 @@ describe('Auth Middleware', () => {
     expect(loadAccountByTokenSpy).toHaveBeenCalledWith(makeHttpRequest().headers['x-access-token'], role)
   })
 
-  test('Should return forbidden if LoadAccountByToken returns null', async () => {
+  test('Should return forbidden Access Denied error if LoadAccountByToken returns null', async () => {
     const { sut, loadAccountByTokenStub } = makeSut()
     jest.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(new Promise(resolve => resolve(null)))
     const httpResponse: HttpResponse = await sut.handle(makeHttpRequest())
-    expect(httpResponse).toEqual(forbidden(new UnauthenticatedError()))
+    expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
   })
 
   test('Should return ok if LoadAccountByToken returns an account', async () => {

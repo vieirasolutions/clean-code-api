@@ -1,5 +1,5 @@
 import { HttpRequest, HttpResponse, Middleware, LoadAccountByToken } from './auth-middleware-protocols'
-import { UnauthenticatedError } from '../errors'
+import { UnauthenticatedError, AccessDeniedError } from '../errors'
 import { forbidden, ok, serverError } from '../helpers/http/http-helper'
 
 export class AuthMiddleware implements Middleware {
@@ -17,7 +17,7 @@ export class AuthMiddleware implements Middleware {
 
       const account = await this.loadAccountByToken.load(httpRequest.headers['x-access-token'], this.role)
       if (!account) {
-        return forbidden(new UnauthenticatedError())
+        return forbidden(new AccessDeniedError())
       }
 
       return ok({ accountId: account.id })
